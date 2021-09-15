@@ -1,2 +1,2 @@
-# MergenXSS
-python3 MergenXSS.py
+# uzaylgen-xss
+python3 uzaylgen-xss.py
