@@ -1,6 +1,6 @@
 # uzaylgen-xss
 
-## ##use of
+## use of
 
 `pip install - r requirements.txt`
 
