@@ -1,6 +1,6 @@
-
-
+from colorama import Fore, Style
 import requests
+import urllib.parses
 
 print(
     """
@@ -15,16 +15,29 @@ print(
 
 
 hedef_site = input("Hedef site giriniz:")
-site = ("http://" + hedef_site + "/index.php?q=")
-txt = open("payload.txt", "r")
+#URL geçerli mi kontrol et
+if urllib.parse.urlparse(hedef_site).scheme == '':
+    hedef_site = 'http://' + hedef_site
+site = (hedef_site + "/index.php?q=")
+
+txt = open("xssPayloads.txt", "r",encoding='utf-8')
 pay = txt.read()
 txt.close()
-for payloads in pay.splitlines():
-    istek = requests.post(site + payloads)
 
+payload_count = len(pay.splitlines())
+processed_count = 0
+
+for payloads in pay.splitlines():
+    processed_count +=1
+    istek = requests.post(site + payloads, timeout=5)
     if payloads in istek.text:
-        print("XSS açığı bulundu")
-        print("İşlenen Payload:" + payloads)
+        print(Fore.YELLOW + "XSS açığı bulundu" + Style.RESET_ALL)
+        print(Fore.YELLOW + "İşlenen Payload:" + payloads + Style.RESET_ALL)
+        print(Fore.YELLOW + "Açık bulunan yer:" + site + payloads + Style.RESET_ALL)
+        print(Fore.YELLOW + "Sömürülebilir:" + "kullanıcının girdiği veri siteye javascript kodu olarak gönderilir." + Style.RESET_ALL)
         break
     else:
-        print("XSS bulunamadı.")
+        if processed_count == payload_count:
+            print(Fore.RED + "XSS bulunamadı." + Style.RESET_ALL)
+        else:
+            print(Fore.RED + "XSS bulunamadı. {}/{} payload işlendi.".format(processed_count,payload_count) + Style.RESET_ALL)
