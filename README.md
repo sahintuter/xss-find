@@ -1,2 +1,7 @@
 # uzaylgen-xss
-python3 uzaylgen-xss.py
+
+## ##use of
+
+`pip install - r requirements.txt`
+
+`python3 uzaylgen-xss.py`
